@@ -331,11 +331,12 @@ class KLEPCBGenerator:
             diode_offset = [-12, 11.5]
             diode_trace_offsets = [[-6.38, 2.54], [-11.5, -1]]
             diode_trace_offsets2 = [[-6.38, 2.54], [-12, 11.12]]
+            row_via_offsets = [[-9.68, 11.12], [4.6, 11.12]]
         else:
             diode_offset = [-6.35, 8.89]
             diode_trace_offsets = [[-6.38, 2.54], [-6.38, 7.77]]
+            row_via_offsets = [[-9.68, 9.83], [4.6, 9.83]]
         col_via_offsets = [[0, -2.03], [0, 12.24]]
-        row_via_offsets = [[-9.68, 9.83], [4.6, 9.83]]
 
         for key in self.keyboard.keys:
             # Place switch
