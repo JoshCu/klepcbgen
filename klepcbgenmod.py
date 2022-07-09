@@ -328,7 +328,7 @@ class KLEPCBGenerator:
         # Place keyswitches, diodes, vias and traces
         key_pitch = 19.05
         if self._normal_diodes:
-            diode_offset = [-12, 11.5]
+            diode_offset = [-12, 11.13]
             diode_trace_offsets = [[-6.38, 2.54], [-11.5, -1]]
             diode_trace_offsets2 = [[-6.38, 2.54], [-12, 11.12]]
             row_via_offsets = [[-9.68, 11.12], [4.6, 11.12]]
