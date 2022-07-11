@@ -324,7 +324,7 @@ class KLEPCBGenerator:
                     author=self.keyboard.author,
                     date=now,
                     comment=comment,
-                )
+                ).replace("\n\n", "\n")
             )
 
     def place_layout_components(self):
