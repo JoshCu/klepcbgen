@@ -2,7 +2,7 @@
     (at {{x}} {{y}} 90)
     (descr "Diode, DO-34_SOD68 series, Axial, Horizontal, pin pitch=10.16mm, , length*diameter=3.04*1.6mm^2, , https://www.nxp.com/docs/en/data-sheet/KTY83_SER.pdf")
     (tags "Diode DO-34_SOD68 series Axial Horizontal pin pitch 10.16mm  length 3.04mm diameter 1.6mm")
-    (fp_text reference REF** (at 5.08 -1.92) (layer F.SilkS)
+    (fp_text reference D{{num}} (at 5.08 -1.92) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value D_DO-34_SOD68_P10.16mm_Horizontal (at 5.08 1.92) (layer F.Fab)
