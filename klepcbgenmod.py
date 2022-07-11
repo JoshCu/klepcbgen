@@ -169,6 +169,7 @@ class KLEPCBGenerator:
         self._normal_diodes = arguments.normal_diodes
         self._no_grid_background_tracks = arguments.no_grid_background_tracks
         self._no_grid_foreground_tracks = arguments.no_grid_foreground_tracks
+        self._track_width = arguments.track_width
         self.read_kle_json(arguments)
         self.generate_rows_and_columns()
         self.generate_schematic(arguments)
@@ -416,6 +417,7 @@ class KLEPCBGenerator:
                         y1=ref_y + col_track_offsets[0][1],
                         x2=ref_x + col_track_offsets[1][0],
                         y2=ref_y + col_track_offsets[1][1],
+                        width=self._track_width,
                         layer="F.Cu",
                         netnum=key.colnetnum,
                     )
@@ -440,6 +442,7 @@ class KLEPCBGenerator:
                         y1=ref_y + row_track_offsets[0][1],
                         x2=ref_x + row_track_offsets[1][0],
                         y2=ref_y + row_track_offsets[1][1],
+                        width=self._track_width,
                         layer="B.Cu",
                         netnum=key.rownetnum,
                     )
@@ -453,6 +456,7 @@ class KLEPCBGenerator:
                     y1=ref_y + diode_trace_offsets[0][1],
                     x2=ref_x + diode_trace_offsets[1][0],
                     y2=ref_y + diode_trace_offsets[1][1],
+                    width=self._track_width,
                     layer="B.Cu",
                     netnum=key.diodenetnum,
                 )

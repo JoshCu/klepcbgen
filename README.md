@@ -41,6 +41,7 @@ While this script takes care of a lot of the tedious and error-prone drudge-work
   * --normal-diodes: will add normal, passthrough diodes instead of surface-mount ones
   * --no-grid-background-tracks: will remove the background, horizontal tracks and its vias (if using normal diodes, the diode itself is a via)
   * --no-grid-background-tracks: will remove the foreground, vertical tracks and its vias (the key pin is itself a via)
+  * --track-width: followed by a decimal value that indicates the width, in millimeters, for the tracks (default value is 0.25)
 * This generates a KiCad project in the subdirectory "mykeyboard"
 * Load the project in KiCad (the *.pro* file) and double-click the kicad_pcb file to open it.
 * From the **Tools** menu, select **Update Footprints from Library...**

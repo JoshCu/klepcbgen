@@ -37,6 +37,11 @@ a keyboard designed using the Keyboard Layout Editor \
         help="Don't add foreground-layer tracks to each button.",
         default=False
     )
+    parser.add_argument(
+        "--track-width", type=float,
+        help="Width for the tracks.",
+        default=0.25
+    )
 
     args = parser.parse_args()
 
