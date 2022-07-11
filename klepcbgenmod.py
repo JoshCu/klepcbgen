@@ -351,13 +351,15 @@ class KLEPCBGenerator:
         if self._normal_diodes:
             diode_offset = [-12, 9.33]
             diode_trace_offsets = [[-6.38, 2.54], [-11.5, -1]]
-            diode_trace_offsets2 = [[-6.38, 2.54], [-12, 9.33]]
-            row_via_offsets = [[-9.68, 9.33], [4.6, 9.33]]
+            row_track_offsets = [[-12, 9.33], [4.6, 9.33]]
+            row_via_offsets = [[4.6, 9.33]]
         else:
             diode_offset = [-5.8, 8.89]
             diode_trace_offsets = [[-5.8, 2.54], [-5.8, 7.77]]
+            row_track_offsets = [[-9.68, 9.83], [4.6, 9.83]]
             row_via_offsets = [[-9.68, 9.83], [4.6, 9.83]]
-        col_via_offsets = [[0.6, -2.03], [0.6, 12.24]]
+        col_track_offsets = [[0.6, 0], [0.6, 12.24]]
+        col_via_offsets = [[0.6, 12.24]]
 
         for key in self.keyboard.keys:
             if key.fake:
@@ -396,8 +398,8 @@ class KLEPCBGenerator:
                 + "\n"
             )
 
-            # Place vias
             if not self._no_grid_foreground_tracks:
+                # Place foreground vias
                 for offset in col_via_offsets:
                     via_x = ref_x + offset[0]
                     via_y = ref_y + offset[1]
@@ -406,8 +408,22 @@ class KLEPCBGenerator:
                         + viatpl.render(x=via_x, y=via_y, netnum=key.colnetnum)
                         + "\n"
                     )
+                # Place foreground traces
+                components_section = (
+                    components_section
+                    + tracetpl.render(
+                        x1=ref_x + col_track_offsets[0][0],
+                        y1=ref_y + col_track_offsets[0][1],
+                        x2=ref_x + col_track_offsets[1][0],
+                        y2=ref_y + col_track_offsets[1][1],
+                        layer="F.Cu",
+                        netnum=key.colnetnum,
+                    )
+                    + "\n"
+                )
 
             if not self._no_grid_background_tracks:
+                # Place background vias
                 for offset in row_via_offsets:
                     via_x = ref_x + offset[0]
                     via_y = ref_y + offset[1]
@@ -416,32 +432,16 @@ class KLEPCBGenerator:
                         + viatpl.render(x=via_x, y=via_y, netnum=key.rownetnum)
                         + "\n"
                     )
-
-            # Place traces
-            if not self._no_grid_background_tracks:
+                # Place background traces
                 components_section = (
                     components_section
                     + tracetpl.render(
-                        x1=ref_x + row_via_offsets[0][0],
-                        y1=ref_y + row_via_offsets[0][1],
-                        x2=ref_x + row_via_offsets[1][0],
-                        y2=ref_y + row_via_offsets[1][1],
+                        x1=ref_x + row_track_offsets[0][0],
+                        y1=ref_y + row_track_offsets[0][1],
+                        x2=ref_x + row_track_offsets[1][0],
+                        y2=ref_y + row_track_offsets[1][1],
                         layer="B.Cu",
                         netnum=key.rownetnum,
-                    )
-                    + "\n"
-                )
-
-            if not self._no_grid_foreground_tracks:
-                components_section = (
-                    components_section
-                    + tracetpl.render(
-                        x1=ref_x + col_via_offsets[0][0],
-                        y1=ref_y + col_via_offsets[0][1],
-                        x2=ref_x + col_via_offsets[1][0],
-                        y2=ref_y + col_via_offsets[1][1],
-                        layer="F.Cu",
-                        netnum=key.colnetnum,
                     )
                     + "\n"
                 )
@@ -453,19 +453,6 @@ class KLEPCBGenerator:
                     y1=ref_y + diode_trace_offsets[0][1],
                     x2=ref_x + diode_trace_offsets[1][0],
                     y2=ref_y + diode_trace_offsets[1][1],
-                    layer="B.Cu",
-                    netnum=key.diodenetnum,
-                )
-                + "\n"
-            )
-            if self._normal_diodes:
-                components_section = (
-                components_section
-                + tracetpl.render(
-                    x1=ref_x + row_via_offsets[0][0],
-                    y1=ref_y + row_via_offsets[0][1],
-                    x2=ref_x + diode_trace_offsets2[1][0],
-                    y2=ref_y + diode_trace_offsets2[1][1],
                     layer="B.Cu",
                     netnum=key.diodenetnum,
                 )
