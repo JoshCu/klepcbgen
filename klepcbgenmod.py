@@ -170,6 +170,7 @@ class KLEPCBGenerator:
         self._no_grid_background_tracks = arguments.no_grid_background_tracks
         self._no_grid_foreground_tracks = arguments.no_grid_foreground_tracks
         self._track_width = arguments.track_width
+        self._no_vias = arguments.no_vias
         self.read_kle_json(arguments)
         self.generate_rows_and_columns()
         self.generate_schematic(arguments)
@@ -401,14 +402,15 @@ class KLEPCBGenerator:
 
             if not self._no_grid_foreground_tracks:
                 # Place foreground vias
-                for offset in col_via_offsets:
-                    via_x = ref_x + offset[0]
-                    via_y = ref_y + offset[1]
-                    components_section = (
-                        components_section
-                        + viatpl.render(x=via_x, y=via_y, netnum=key.colnetnum)
-                        + "\n"
-                    )
+                if not self._no_vias:
+                    for offset in col_via_offsets:
+                        via_x = ref_x + offset[0]
+                        via_y = ref_y + offset[1]
+                        components_section = (
+                            components_section
+                            + viatpl.render(x=via_x, y=via_y, netnum=key.colnetnum)
+                            + "\n"
+                        )
                 # Place foreground traces
                 components_section = (
                     components_section
@@ -426,14 +428,15 @@ class KLEPCBGenerator:
 
             if not self._no_grid_background_tracks:
                 # Place background vias
-                for offset in row_via_offsets:
-                    via_x = ref_x + offset[0]
-                    via_y = ref_y + offset[1]
-                    components_section = (
-                        components_section
-                        + viatpl.render(x=via_x, y=via_y, netnum=key.rownetnum)
-                        + "\n"
-                    )
+                if not self._no_vias:
+                    for offset in row_via_offsets:
+                        via_x = ref_x + offset[0]
+                        via_y = ref_y + offset[1]
+                        components_section = (
+                            components_section
+                            + viatpl.render(x=via_x, y=via_y, netnum=key.rownetnum)
+                            + "\n"
+                        )
                 # Place background traces
                 components_section = (
                     components_section

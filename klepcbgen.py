@@ -42,6 +42,11 @@ a keyboard designed using the Keyboard Layout Editor \
         help="Width for the tracks.",
         default=0.25
     )
+    parser.add_argument(
+        "--no-vias", action="store_true",
+        help="Don't add vias in the grid tracks.",
+        default=False
+    )
 
     args = parser.parse_args()
 
