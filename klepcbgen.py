@@ -27,6 +27,17 @@ a keyboard designed using the Keyboard Layout Editor \
         help='Use pass-through diodes instead of surface-mounted ones.',
         default=False
     )
+    parser.add_argument(
+        "--no-grid-background-tracks", action="store_true",
+        help="Don't add background-layer tracks to each button.",
+        default=False
+    )
+    parser.add_argument(
+        "--no-grid-foreground-tracks", action="store_true",
+        help="Don't add foreground-layer tracks to each button.",
+        default=False
+    )
+
     args = parser.parse_args()
 
     if not args.infile:
