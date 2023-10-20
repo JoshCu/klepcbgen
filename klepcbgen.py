@@ -1,6 +1,7 @@
 import sys
-from  klepcbgenmod import *
+from klepcbgenmod import *
 import argparse
+
 
 def parse_command_line_arguments():
     """ Parse the command line and check that the correct number of arguments is given """
@@ -47,6 +48,11 @@ a keyboard designed using the Keyboard Layout Editor \
         help="Don't add vias in the grid tracks.",
         default=False
     )
+    parser.add_argument(
+        "--choc", action="store_true",
+        help="use choc switches instead of mx",
+        default=False
+    )
 
     args = parser.parse_args()
 
@@ -57,6 +63,7 @@ a keyboard designed using the Keyboard Layout Editor \
         )
 
     return args
+
 
 # Program entry
 if __name__ == "__main__":

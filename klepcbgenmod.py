@@ -16,8 +16,10 @@ PROGRAM_VERSION = "0.1"
 MAX_ROWS = 7
 MAX_COLS = 18
 
+
 class KeyBlockCollection:
     """Maintains a collection of blocks of keyboard keys, such as columns or rows"""
+
     def __init__(self):
         self.blocks = []
 
@@ -41,6 +43,7 @@ class KeyBlockCollection:
 class Keyboard:
     """Represents an entire keyboard layout with all the keys positioned and
        grouped in rows and columns"""
+
     def __init__(self):
         self.keys = []
         self.rows = KeyBlockCollection()
@@ -116,8 +119,10 @@ def unit_width_to_available_footprint(unit_width):
     # is what we have
     return "6.25"
 
+
 class Nets:
     """Maintains a collection of nets for use in the schematic"""
+
     def __init__(self):
         self.nets = []
 
@@ -147,6 +152,7 @@ class Nets:
         else:
             return "UNKNOWN"
 
+
 class KLEPCBGenerator:
     """Wrapper around the entire generator parses arguments, load json and generate kicad project"""
     keyboard = Keyboard()
@@ -165,7 +171,7 @@ class KLEPCBGenerator:
 
         if not os.path.exists(arguments.outname):
             os.mkdir(arguments.outname)
-
+        self._choc = arguments.choc
         self._normal_diodes = arguments.normal_diodes
         self._no_grid_background_tracks = arguments.no_grid_background_tracks
         self._no_grid_foreground_tracks = arguments.no_grid_foreground_tracks
@@ -334,6 +340,8 @@ class KLEPCBGenerator:
     def place_layout_components(self):
         """ Place footprint components, traces and vias """
         switch = self.jinja_env.get_template("layout/keyswitch.tpl")
+        if self._choc:
+            switch = self.jinja_env.get_template("layout/keyswitch_choc.tpl")
         if self._normal_diodes:
             diode = self.jinja_env.get_template("layout/diode_passthrough.tpl")
         else:
@@ -357,6 +365,8 @@ class KLEPCBGenerator:
             row_via_offsets = [[4.6, 9.33]]
         else:
             diode_offset = [-5.8, 8.89]
+            if self._choc:
+                diode_offset = [2.5, 12]
             diode_trace_offsets = [[-5.8, 2.54], [-5.8, 7.77]]
             row_track_offsets = [[-9.68, 9.83], [4.6, 9.83]]
             row_via_offsets = [[-9.68, 9.83], [4.6, 9.83]]
@@ -452,19 +462,19 @@ class KLEPCBGenerator:
                     + "\n"
                 )
 
-            components_section = (
-                components_section
-                + tracetpl.render(
-                    x1=ref_x + diode_trace_offsets[0][0],
-                    y1=ref_y + diode_trace_offsets[0][1],
-                    x2=ref_x + diode_trace_offsets[1][0],
-                    y2=ref_y + diode_trace_offsets[1][1],
-                    width=self._track_width,
-                    layer="B.Cu",
-                    netnum=key.diodenetnum,
+                components_section = (
+                    components_section
+                    + tracetpl.render(
+                        x1=ref_x + diode_trace_offsets[0][0],
+                        y1=ref_y + diode_trace_offsets[0][1],
+                        x2=ref_x + diode_trace_offsets[1][0],
+                        y2=ref_y + diode_trace_offsets[1][1],
+                        width=self._track_width,
+                        layer="B.Cu",
+                        netnum=key.diodenetnum,
+                    )
+                    + "\n"
                 )
-                + "\n"
-            )
 
             # Place stabilizer mount holes, if necessary
 
@@ -575,4 +585,3 @@ class KLEPCBGenerator:
                 args.outname + "/" + os.path.basename(os.path.normpath(args.outname)) + ".pro", "w+", newline="\n"
         ) as out_file:
             out_file.write(prj.render())
-
